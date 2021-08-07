@@ -1,12 +1,14 @@
 package com.bobo.dao;
 
 import com.bobo.pojo.Department;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 // 部门dao
+@Repository
 public class DepartmentDao {
 
     // 模拟数据库中的数据
