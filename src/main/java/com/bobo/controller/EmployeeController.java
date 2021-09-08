@@ -1,7 +1,7 @@
 package com.bobo.controller;
 
-import com.bobo.dao.DepartmentDao;
-import com.bobo.dao.EmployeeDao;
+import com.bobo.mapper.DepartmentMapper;
+import com.bobo.mapper.EmployeeMapper;
 import com.bobo.pojo.Department;
 import com.bobo.pojo.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +18,14 @@ import java.util.Collection;
 public class EmployeeController {
 
     @Autowired
-    EmployeeDao employeeDao;
+    private EmployeeMapper employeeMapper;
 
     @Autowired
-    DepartmentDao departmentDao;
+    private DepartmentMapper departmentMapper;
 
     @RequestMapping("/emps")
     public String list(Model model) {
-        Collection<Employee> employees = employeeDao.getAll();
+        Collection<Employee> employees = employeeMapper.getAllEmployee();
         model.addAttribute("emps", employees);
         return "emp/list";
     }
@@ -34,7 +34,7 @@ public class EmployeeController {
     public String toAddpage(Model model) {
 
         // 查出所有部门的信息
-        Collection<Department> departments = departmentDao.getDepartments();
+        Collection<Department> departments = departmentMapper.getDepartments();
         model.addAttribute("departments", departments);
 
         return "emp/add";
@@ -43,7 +43,7 @@ public class EmployeeController {
     @PostMapping("/emp")
     public String addEmp(Employee employee) {
         //System.out.println("save==>" + employee);
-        employeeDao.save(employee);//调用底层业务保存员工信息
+        employeeMapper.addEmployee(employee);//调用底层业务保存员工信息
         return "redirect:/emps";
     }
 
@@ -52,11 +52,11 @@ public class EmployeeController {
     public String toUpdateEmp(@PathVariable("id")Integer id, Model model) {
 
         // 查出原来的数据
-        Employee employee = employeeDao.getEmployeeById(id);
+        Employee employee = employeeMapper.getEmployeeById(id);
         model.addAttribute("emp", employee);
 
         // 查出所有部门的信息
-        Collection<Department> departments = departmentDao.getDepartments();
+        Collection<Department> departments = departmentMapper.getDepartments();
         model.addAttribute("departments", departments);
 
         return "emp/update";
@@ -65,14 +65,14 @@ public class EmployeeController {
     // 员工修改
     @PostMapping ("/updateEmp")
     public String updateEmp(Employee employee) {
-        employeeDao.save(employee);
+        employeeMapper.updateEmployee(employee);
         return "redirect:/emps";
     }
 
     // 员工删除
     @GetMapping("/delemp/{id}")
     public String deleteEmp(@PathVariable("id")Integer id) {
-        employeeDao.deleteEmployeeByid(id);
+        employeeMapper.deleteEmployeeById(id);
         return "redirect:/emps";
     }
 }

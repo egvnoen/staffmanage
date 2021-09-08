@@ -14,15 +14,15 @@ public class Employee {
     private String lastName;
     private String email;
     private Integer gender; // 0:女 1:男
-    private Department department;
+    private String departmentName;
     private Date birth;
 
-    public Employee(Integer id, String lastName, String email, Integer gender, Department department) {
+    public Employee(Integer id, String lastName, String email, Integer gender, String departmentName) {
         this.id = id;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
-        this.department = department;
+        this.departmentName = departmentName;
         // 默认的创建日期
         this.birth = new Date();
     }
